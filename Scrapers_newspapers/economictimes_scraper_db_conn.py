@@ -37,19 +37,19 @@ num_skipped_articles = 0
 months = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 days = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-year = 2006
-dayCounter = 38918
+year = 2020
+dayCounter = 44092
 
 while year <= 2020:
     mindex = 0
     dindex = 0
-    if year == 2006 and dayCounter == 38918:
-        mindex = 6
-        dindex = 6
+    if year == 2020 and dayCounter == 44092:
+        mindex = 8
+        dindex = 8
     while mindex < 12:
         day = 1
-        if year == 2006 and mindex == 6:
-            day = 20
+        if year == 2020 and mindex == 6:
+            day = 18
         while day <= days[dindex]:
             artnum = 0
             urlList = []
@@ -67,13 +67,9 @@ while year <= 2020:
                 alist = ultag.find_all('a')
                 for link in alist:#, attrs={'href': re.compile("^http://economictimes.indiatimes.com//")}):
                     print('http://economictimes.indiatimes.com//' + link.get('href'))
-                    urlList.append('http://economictimes.indiatimes.com/' + link.get('href'))
+                    urlList.append('http://economictimes.indiatimes.com' + link.get('href'))
             print('len =' + str(len(urlList)))
             i = 0
-            '''
-            if year == 2006 and mindex == 5 and day ==27:
-                i = 100 
-                '''
             while i < len(urlList):
                 num = 1
                 fileName = str(year) + '-' + str(months[mindex]) + '-' + str(day) + '-' + str(i)
@@ -89,7 +85,7 @@ while year <= 2020:
                 soup = BeautifulSoup(page.text, 'html.parser')
 
                 # Extract the title
-                title = soup.find('h1', class_='clearfix title')
+                title = soup.find('h1', class_='artTitle font_faus')
                 if title is None:
                     print('NO TITLE')
                     #artFile.write('NO TITLE' + "\n")
@@ -99,7 +95,7 @@ while year <= 2020:
                     #artFile.write(title + "\n")
 
                 #Extract top-level summary
-                summary = soup.find('h2', class_='title2')
+                summary = soup.find('h2', class_='summary')
                 if summary is None:
                     print('NO Summary')
                     #artFile.write('NO Summary' + "\n")
@@ -135,6 +131,8 @@ while year <= 2020:
                     script.decompose()  # rip it out
 
                 article = soup.find(class_='artText')
+               #print(article)
+                
                 if article is not None:
                     text = article.text
                     # break into lines and remove leading and trailing space on each
@@ -151,7 +149,7 @@ while year <= 2020:
                     text = re.sub(r"\"", "\\\" ", text)
                     title = re.sub(r"\"", "\\\" ", title)
                     header = re.sub(r"\"", "\\\" ", header)
-                    
+
                     # Create a connection to surge database and insert the news paper articles into table
                     if len(text) > 0:
                         conn = mysql.connector.connect(host=hostname, user=username, passwd=password, database=dbname)
@@ -161,21 +159,21 @@ while year <= 2020:
                             db_cursor.execute(sql_statement)
                             conn.commit()
                         except:
-                            num_skipped_articles +=1
-                            print(num_skipped_articles)
+                            # reset values of all the variables for next loop
                             text = ''
                             header = ''
                             image_exists = 0
                             imageName = ''
                             i += 1
                             continue
-                # reset values of all the variabled=s for next loop
+                # reset values of all the variables for next loop if the except block is not executed
                 text = ''
                 header = ''
                 image_exists = 0
                 imageName = ''
                 i += 1
             day += 1
+            
             dayCounter += 1
         mindex += 1
         dindex += 1

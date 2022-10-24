@@ -27,8 +27,8 @@ if not os.path.exists(dir_path):
 months = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 days = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-year = 2001
-dayCounter = 36892
+year = 2020
+dayCounter = 43831
 image_exists = 0
 imgName = ''
 text = ''
@@ -45,8 +45,14 @@ while year <= 2020:
             print(urlMonth)
             html_page = requests.get(urlMonth)
             soup = BeautifulSoup(html_page.content, 'html.parser')
-            for link in soup.findAll('a', attrs={'href': re.compile("^http://timesofindia.indiatimes.com//")}):
-                urlList.append(link.get('href'))
+            for link in soup.findAll('a'):
+                url = str(link.get('href'))
+                if (url.endswith('cms') and (url[0] == '/')):
+                    urlList.append("http://timesofindia.indiatimes.com" + str(link.get('href')))
+                    #print("http://timesofindia.indiatimes.com" + str(link.get('href'))
+            del urlList[:4] ## Delete the first four links that do not point to articles
+            del urlList[-3:] ## Delete the last three links that do not point to articles
+
             print(urlList.__sizeof__())
             i = 0
             while i < len(urlList):

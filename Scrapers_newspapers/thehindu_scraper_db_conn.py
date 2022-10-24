@@ -21,7 +21,7 @@ password = 'YU6gFU'
 dbname = 'surge'
 
 num_skipped_articles = 0
-
+'''
 # Create the directory name where the images will be saved
 base_dir = '/home/fac/surge/newspaper_data/'
 dir_name = 'HINDU_IMAGES'
@@ -31,23 +31,23 @@ dir_path = os.path.join(base_dir, dir_name)
 if not os.path.exists(dir_path):
     os.mkdir(dir_path)
 
-
+'''
 months = (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)
 days = (31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31)
 
-year = 2011
+year = 2021
 image_exists = 0 #Flag for image. its value when 0 means false else true
 imgName = ''
 
-while year <= 2020:
+while year <= 2021:
     mindex = 0
     dindex = 0
-    while mindex < 12:
-        day = 1
+    while mindex == 0:
+        day = 28
         while day <= days[dindex]:
             artnum = 0
             urlList = []
-            urlMonth = "https://www.thehindu.com/archive/web/" + str(year) + "/" + str(months[mindex]) + "/" + str(day)
+            urlMonth = "https://www.thehindu.com/archive/web/" + str(year) + "/" + str(months[mindex]) + "/" + str(day) + "/"
             print(urlMonth)
             html_page = requests.get(urlMonth)
             soup = BeautifulSoup(html_page.content, 'html.parser')
