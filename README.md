@@ -1,6 +1,8 @@
 # Misc-5W-Analysis
 This repo consists of scripts that has been used in my research.
-Newspapers_scraper:
+
+Scrapers_newspapers:
+
   Folder contains web scrapers that scrape news articles published in 7 different news papers listed below from India.
   1. Times of India
   2. The Hindu
