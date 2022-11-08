@@ -10,4 +10,4 @@ Newspapers_scraper:
   6. Assam Tribune
   7. Incredible Orissa
 
-The scrapers are scheduled using cron jobs in a unix server. The news reports scrpaed are stored in a MySQL database.
+The scrapers are scheduled using cron jobs in a unix server. The news reports scraped are stored in a MySQL database.
